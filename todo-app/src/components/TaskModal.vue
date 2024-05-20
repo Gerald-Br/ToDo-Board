@@ -1,0 +1,105 @@
+<template>
+    <transition name="fade">
+        <div v-if="isVisible" class="modal show d-block" tabindex="-1" @click.self="closeModal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5">Create a ToDo</h1>
+                        <button type="button" class="btn-close" @click="closeModal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form>
+                            <div class="mb-3">
+                                <label for="TitleInput" class="form-label fw-light">Title</label>
+                                <input type="text" class="form-control" v-model="title" id="TitleInput" required/>
+                            </div>
+                            <div class="mb-3">
+                                <label for="DescriptionInput" class="form-label fw-light">Description</label>
+                                <input type="text" class="form-control" v-model="description" id="DescriptionInput">
+                            </div>
+                            <div class="mb-3">
+                                <label for="PriorityInput" class="form-label fw-light">Priority</label>
+                                <div id="PriorityInput">
+                                    <input type="radio" class="btn-check" name="priority-options" id="option5"
+                                        autocomplete="off" v-model="priority" value="3" checked>
+                                    <label class="btn" for="option5">Low</label>
+                                    <input type="radio" class="btn-check bg-primary" name="priority-options" id="option6"
+                                        autocomplete="off" v-model="priority" value="2">
+                                    <label class="btn" for="option6">Medium</label>
+                                    <input type="radio" class="btn-check" name="priority-options" id="option7"
+                                        autocomplete="off" v-model="priority" value="1">
+                                    <label class="btn" for="option7">High</label>
+                                </div>
+                            </div>
+                        </form>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-primary" @click="addNewTask">Add</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </transition>
+</template>
+
+<script setup lang="ts">
+import { addTask } from '@/store';
+import { defineProps, defineEmits, ref } from 'vue'
+import { v4 } from 'uuid'
+
+defineProps({
+    isVisible: Boolean,
+})
+
+const emit = defineEmits(['update:isVisible'])
+const title = ref('')
+const description = ref('')
+const priority = ref()
+
+const addNewTask = () => {
+    if (!title.value) {
+        alert('Title is required')
+        return
+    }
+    const task = {
+        id: v4(),
+        title: title.value,
+        description: description.value,
+        priority: priority.value,
+        completed: false
+    }
+    addTask(task)
+    resetForm()
+    emit('update:isVisible', false)
+}
+const closeModal = () => {
+    emit('update:isVisible', false)
+}
+const resetForm = () => {
+    title.value = ''
+    description.value = ''
+    priority.value = ''
+}
+</script>
+
+<style>
+.fade-enter-active,
+.fade-leave-active {
+    transition: opacity 0.5s;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+    opacity: 0;
+}
+
+.fade-enter-to,
+.fade-leave-from {
+    opacity: 1;
+}
+
+.task-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+</style>
