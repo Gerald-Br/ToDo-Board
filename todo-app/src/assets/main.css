@@ -1,0 +1,21 @@
+#app {
+  font-family: 'Montserrat';
+}
+
+/* Solution 2: Use more specific selectors */
+
+body .bg-primary {
+  background-color: #badcff !important; /* Change to your desired primary color */
+}
+
+body .bg-secondary {
+  background-color: #babaff !important; /* Change to your desired secondary color */
+}
+
+body .border-primary-subtle {
+  border-color: #e2f1ff !important; /* Change to your desired primary color */
+}
+
+body .border-secondary-subtle {
+  border-color: #d5d5ff !important; /* Change to your desired secondary color */
+}
