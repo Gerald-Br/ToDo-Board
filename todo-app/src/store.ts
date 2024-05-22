@@ -6,17 +6,24 @@ interface Task {
   title: string;
   description: string;
   priority: Priority;
+  category: string;
   completed: boolean;
 }
 interface State {
   tasks: Task[];
 }
 const state: State = reactive({
-  tasks: [{ id: uuidv4(), title: 'Learn Vue 3',description:'Test',priority: 1, completed: false},
-    { id: uuidv4(), title: 'Learn Vuex',description:'Another Test',priority: 2, completed: true},
+  tasks: [{ id: uuidv4(), title: 'Learn Vue 3',description:'Test',priority: 1,category:'Education', completed: false},
+    { id: uuidv4(), title: 'Learn Vuex',description:'Another Test',priority: 2,category:'Education', completed: true},
+    { id: uuidv4(), title: 'Do Something',description:'Test',priority: 3,category:'Work', completed: false},
   ],
 })
 type Priority = 1 | 2 | 3
+
+export const categoryColorMap: Record<string, string> = {
+  Education: '#537a8d',
+  Work: '#538d84',
+}
 
 const priorityMap = {
   1: 'High',
@@ -26,7 +33,12 @@ const priorityMap = {
 export function getPriority(priority: Priority) {
   return priorityMap[priority]
 }
-
+export function addCategory(category: string, color: string) {
+  categoryColorMap[category] = color
+}
+export function getCategoryColorMapEntries() {
+  return Object.entries(categoryColorMap);
+}
 export function addTask(task: Task) {
   state.tasks = [...state.tasks, task];
 }

@@ -2,12 +2,21 @@
     <div class="container-sm border rounded-4 p-3 d-flex flex-column">
         <div>
             <h1>ToDo's</h1>
-            <transition-group name="slide-fade" tag="div">
-                <div class="d-flex justify-content-between align-items-center mb-3 rounded-2 w-100"
-                    v-for="task in state.tasks" :key="task.id" tabindex="-1">
-                    <TaskRow :task="task" @task-completed="updateTasks" @task-deleted="updateTasks"/>
-                </div>
-            </transition-group>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col"></th>
+                        <th scope="col">Priority</th>
+                        <th scope="col">Category</th>
+                        <th scope="col"></th>
+                    </tr>
+                </thead>
+                <transition-group name="slide-fade" tag="tbody">
+                    <tr v-for="task in state.tasks" :key="task.id" tabindex="-1">
+                        <TaskRow :task="task" @task-completed="updateTasks" @task-deleted="updateTasks"/>
+                    </tr>
+                </transition-group>
+            </table>
             <div class="d-flex justify-content-end">
                 <button type="button" class="btn btn-primary" @click="showModal = true">
                     <i class="bi bi-plus-lg"></i>
