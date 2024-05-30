@@ -1,7 +1,7 @@
 import { reactive } from 'vue'
 import { v4 as uuidv4 } from 'uuid';
 
-interface Task {
+export interface Task {
   id: string;
   title: string;
   description: string;
@@ -18,11 +18,19 @@ const state: State = reactive({
     { id: uuidv4(), title: 'Do Something',description:'Test',priority: 3,category:'Work', completed: false},
   ],
 })
-type Priority = 1 | 2 | 3
+export enum Priority {
+  High = 1,
+  Medium = 2,
+  Low = 3
+}
 
 export const categoryColorMap: Record<string, string> = {
   Education: '#537a8d',
   Work: '#538d84',
+}
+
+export function getFinishedTasks() {
+  return state.tasks.filter(task => task.completed);
 }
 
 const priorityMap = {

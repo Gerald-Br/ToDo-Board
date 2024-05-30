@@ -10,7 +10,7 @@
                     <div class="modal-body">
                         <form @submit.prevent="addNewTask">
                             <div class="mb-3">
-                                <label for="TitleInput" class="form-label fw-light">Title</label>
+                                <label for="TitleInput" class="form-label fw-light">Title*</label>
                                 <input type="text" class="form-control" v-model="title" id="TitleInput" required />
                             </div>
                             <div class="mb-3">
@@ -22,10 +22,10 @@
                                 <div id="PriorityInput">
                                     <input type="radio" class="btn-check" name="priority-options" id="option5"
                                         autocomplete="off" v-model="priority" value="3" checked>
-                                    <label class="btn" for="option5">Low</label>
-                                    <input type="radio" class="btn-check bg-primary" name="priority-options"
+                                    <label class="btn me-2" for="option5">Low</label>
+                                    <input type="radio" class="btn-check" name="priority-options"
                                         id="option6" autocomplete="off" v-model="priority" value="2">
-                                    <label class="btn" for="option6">Medium</label>
+                                    <label class="btn me-2" for="option6">Medium</label>
                                     <input type="radio" class="btn-check" name="priority-options" id="option7"
                                         autocomplete="off" v-model="priority" value="1">
                                     <label class="btn" for="option7">High</label>
@@ -45,7 +45,7 @@
                                         </button>
                                     </div>
                                     <button type="button" class="btn btn-secondary badge rounded-pill m-1">
-                                        <i class="bi bi-plus-lg"></i>
+                                        <i class="bi bi-plus-lg"></i> 
                                     </button>
                                 </div>
                             </div>
@@ -61,7 +61,8 @@
 </template>
 
 <script setup lang="ts">
-import { addTask, getCategoryColorMapEntries } from '@/store';
+import { addTask, getCategoryColorMapEntries, Priority } from '@/store';
+import type { Task } from '@/store'
 import { defineProps, defineEmits, ref } from 'vue'
 import { v4 } from 'uuid'
 
@@ -72,16 +73,16 @@ defineProps({
 const emit = defineEmits(['update:isVisible'])
 const title = ref('')
 const description = ref('')
-const priority = ref()
+const priority = ref<Priority>(Priority.Low)
 const selectedCategory = ref('')
 
 const addNewTask = () => {
-    const task = {
+    const task: Task = {
         id: v4(),
         title: title.value,
         description: description.value,
         priority: priority.value,
-        category: '',
+        category: selectedCategory.value,
         completed: false
     }
     addTask(task)
@@ -94,7 +95,8 @@ const closeModal = () => {
 const resetForm = () => {
     title.value = ''
     description.value = ''
-    priority.value = ''
+    priority.value = Priority.Low
+    selectedCategory.value = ''
 }
 const handleCategoryClick = (category: string) => {
     selectedCategory.value = category

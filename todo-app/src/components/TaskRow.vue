@@ -1,28 +1,30 @@
 <template>
-    <td class="d-flex align-items-center border-0">
-        <div class="form-check form-check-inline">
-            <input class="form-check-input" type="checkbox" @click="handleCompleteTask(props.task.id)" />
+    <div class="d-flex align-items-center justify-content-between">
+        <div class="d-flex align-items-center">
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="checkbox" @click="handleCompleteTask(props.task.id)" />
+            </div>
+            <div class="m-2">
+                {{ props.task.title }}
+            </div>
         </div>
-        <div class="m-2">
-            {{ props.task.title }}
+        <div class="d-flex align-items-center">
+            <div class="me-3">
+                {{ getPriority(props.task.priority) }}
+            </div>
+            <div class="me-3">
+                <span v-if="props.task.category" class="badge rounded-pill" :style="{backgroundColor: categoryColorMap[props.task.category] || 'gray'}">
+                    <i class="bi bi-tag-fill me-1"></i>
+                    {{ props.task.category }}
+                </span>
+            </div>
+            <div>
+                <button type="button" class="btn btn-sm btn-delete" @click="handleDeleteTask(props.task.id)">
+                    <i class="bi bi-trash"></i>
+                </button>
+            </div>
         </div>
-    </td>
-    <td class="align-middle border-0">
-        {{ getPriority(props.task.priority) }}
-    </td>
-    <td class="align-middle border-0">
-        <span v-if="props.task.category" class="badge rounded-pill" :style="{backgroundColor: categoryColorMap[props.task.category] || 'gray'}">
-            <i class="bi bi-tag-fill me-1"></i>
-            {{ props.task.category }}
-        </span>
-    </td>
-    <td class="align-middle border-0">
-        <div class="ml-auto d-flex align-items-center">
-            <button type="button" class="btn btn-sm btn-delete" @click="handleDeleteTask(props.task.id)">
-                <i class="bi bi-trash"></i>
-            </button>
-        </div>
-    </td>
+    </div>
 </template>
 
 <script setup lang="ts">
