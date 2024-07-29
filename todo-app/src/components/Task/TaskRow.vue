@@ -34,7 +34,7 @@
 
 <script setup lang="ts">
 import { useTaskStore } from '@/store'
-import { defineProps } from 'vue'
+import { defineProps, computed } from 'vue'
 
 const store = useTaskStore()
 /*const categoryColorMap = store.categoryColorMap*/
@@ -45,7 +45,7 @@ const props = defineProps({
         default: () => ({ id: '', title: '', priority: 0 })
     }
 })
-const isTaskCompleted = store.isTaskCompleted(props.task.id)
+const isTaskCompleted = computed(() => store.isTaskCompleted(props.task.id))
 const handleCompleteTask = (taskId: number) => {
     store.completeTask(taskId)
 }

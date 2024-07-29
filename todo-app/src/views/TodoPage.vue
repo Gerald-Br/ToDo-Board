@@ -14,16 +14,15 @@
             </div>
         </header>
         <div class="board-content">
-            <TaskTable :tasks="unfinishedTasks" />
-            <div class="d-flex justify-content-end">
-                <button type="button" class="btn btn-primary my-3" @click="showModal = true">
-                    <i class="bi bi-plus-lg"></i>
-                </button>
-            </div>
-            <TaskModal v-model:isVisible="showModal" />
-            <TaskTable :tasks="finishedTasks" />
+            <TaskTable :tasks="allTasks" />
+        </div>
+        <div class="board-footer d-flex justify-content-end">
+            <button type="button" class="btn btn-primary board-footer-add" @click="showModal = true">
+                <i class="bi bi-plus-lg"></i>
+            </button>
         </div>
     </div>
+    <TaskModal v-model:isVisible="showModal" />
 </template>
 
 <script setup lang="ts">
@@ -35,24 +34,17 @@ import { useTaskStore } from '@/store'
 const store = useTaskStore()
 const showModal = ref(false)
 
-const unfinishedTasks = computed(() => store.unfinishedTasks)
-const finishedTasks = computed(() => store.finishedTasks)
+const allTasks = computed(() => store.alltasks)
 const totalTasks = computed(() => store.totalTasks)
 const totalTasksDone = computed(() => store.totalDoneTasks)
 
 </script>
 
 <style scoped lang="scss">
-.slide-fade-leave-active {
-    transition: all .9s ease;
-    transform: translateX(+100%);
-    opacity: 0;
-}
-
 .board-info {
-    margin-bottom: 1rem;
+    margin-bottom: 0.5rem;
     padding: 0.5rem;
-    background-color: rgb(221, 221, 221);
+    background-color: rgb(220, 220, 220);
 }
 
 .board-info-element {
@@ -67,6 +59,12 @@ const totalTasksDone = computed(() => store.totalDoneTasks)
     overflow: hidden;
     transition: 0.5s ease-in-out 0s;
     background-color: white;
+
+    &-footer {
+        &-add {
+            margin: 0.5rem 0.5rem 0.5rem 0.5rem;
+        }
+    }
 }
 
 .container {
@@ -76,6 +74,12 @@ const totalTasksDone = computed(() => store.totalDoneTasks)
 
 .board-content {
     padding: 0 0.5rem;
+}
+
+.board-footer {
+    padding: 0rem;
+    margin: 0rem;
+    background-color: rgb(220, 220, 220);
 }
 
 h1 {
