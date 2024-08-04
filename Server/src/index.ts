@@ -1,14 +1,29 @@
-import { createServer } from 'node:http';
+import express from 'express';
+import { getWeatherData, getGeocodeData } from './services/weatherAPI';
+import { formatWeatherData } from './util/weatherDataFormatter';
+import { formatGeocodeData } from './util/geocodeDataFormatter';
+import { formatWeatherGeoData } from './util/finalWeatherResponseFormatter';
 
-const hostname = '127.0.0.1';
+const app = express();
 const port = 3000;
 
-const server = createServer((req, res) => {
-  res.statusCode = 200;
-  res.setHeader('Content-Type', 'text/plain');
-  res.end('Hello World');
+app.get('/api/weather', async (req: any, res: any) => {
+  try {
+    const location: string = req.query.location as string;
+    if (!location) {
+      return res.status(400).send('Missing location');
+    }
+    const geocodeData = await getGeocodeData(location);
+    const formattedGeocodeData = formatGeocodeData(geocodeData);
+    const weatherData = await getWeatherData(formattedGeocodeData.lat, formattedGeocodeData.long);
+    const formattedWeatherData = formatWeatherData(weatherData);
+    const finalResponse = formatWeatherGeoData(formattedGeocodeData.name, formattedWeatherData);
+    res.json(finalResponse);
+  } catch (error) {
+    res.status(500).send('Error fetching weather data');
+  }
 });
 
-server.listen(port, hostname, () => {
-  console.log(`Server running at http://${hostname}:${port}/`);
+app.listen(port, () => {
+  console.log(`Server running at http://localhost:${port}/`);
 });
