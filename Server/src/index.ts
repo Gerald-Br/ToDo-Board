@@ -1,10 +1,12 @@
 import express from 'express';
+import cors from 'cors';
 import { getWeatherData, getGeocodeData } from './services/weatherAPI';
 import { formatWeatherData } from './util/weatherDataFormatter';
 import { formatGeocodeData } from './util/geocodeDataFormatter';
 import { formatWeatherGeoData } from './util/finalWeatherResponseFormatter';
 
 const app = express();
+app.use(cors());
 const port = 3000;
 
 app.get('/api/weather', async (req: any, res: any) => {

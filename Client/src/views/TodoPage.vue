@@ -1,5 +1,4 @@
 <template>
-    <h1 class="d-flex justify-content-center mb-5">ToDo's</h1>
     <div class="container d-flex flex-column board">
         <header class="d-flex justify-content-end board-info">
             <div class="d-flex board-info-element">
@@ -17,7 +16,7 @@
             <TaskTable :tasks="allTasks" />
         </div>
         <div class="board-footer d-flex justify-content-end">
-            <button type="button" class="btn btn-primary board-footer-add" @click="showModal = true">
+            <button type="button" class="btn btn-primary rounded-circle board-footer-add" @click="showModal = true">
                 <i class="bi bi-plus-lg"></i>
             </button>
         </div>
@@ -52,13 +51,13 @@ const totalTasksDone = computed(() => store.totalDoneTasks)
 }
 
 .board {
-    position: relative;
-    width: 80%;
+    width: 100%;
     max-width: 50rem;
-    margin: 0 auto 3rem;
+    margin: 0 0 2rem 0;
     overflow: hidden;
     transition: 0.5s ease-in-out 0s;
     background-color: white;
+    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.6);
 
     &-footer {
         &-add {
@@ -80,6 +79,16 @@ const totalTasksDone = computed(() => store.totalDoneTasks)
     padding: 0rem;
     margin: 0rem;
     background-color: rgb(220, 220, 220);
+
+    .btn{
+        width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0;
+            flex-shrink: 0;
+    }
 }
 
 h1 {
