@@ -1,6 +1,4 @@
 import axios from 'axios';
-import { formatGeocodeData } from '../util/geocodeDataFormatter';
-import { format } from 'path';
 
 const WEATHER_URL = 'https://api.open-meteo.com/v1/forecast';
 const GEOCODE_URL = 'https://geocoding-api.open-meteo.com/v1/search';
@@ -12,7 +10,8 @@ export const getWeatherData = async (lat: number, long: number) => {
         latitude: lat,
         longitude: long,
         current: 'temperature_2m,precipitation',
-        daily: 'temperature_2m_max,temperature_2m_min',
+        daily: 'temperature_2m_max,temperature_2m_min,precipitation_probability_mean,sunshine_duration',
+        timezone: 'Europe/Berlin',
       }
     });
     return response.data;

@@ -13,6 +13,7 @@
     "format": "prettier --write src/"
   },
   "dependencies": {
+    "@vueuse/core": "^11.0.1",
     "axios": "^1.7.3",
     "bootstrap": "^5.3.3",
     "bootstrap-icons": "^1.11.3",

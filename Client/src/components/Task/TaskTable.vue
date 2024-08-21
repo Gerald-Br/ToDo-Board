@@ -1,7 +1,7 @@
 <template>
     <div class="task-list">
         <transition-group v-if="hasTasks" name="slide-fade">
-            <li class="task-list-item" v-for="task in props.tasks" :key="task.id" tabindex="-1">
+            <li class="task-list-item my-1" v-for="task in props.tasks" :key="task.id" tabindex="-1">
                 <TaskRow :task="task" />
             </li>
         </transition-group>
@@ -16,7 +16,7 @@
 import { defineProps, computed } from 'vue'
 import TaskRow from '@/components/Task/TaskRow.vue'
 import type { PropType } from 'vue'
-import type { Task } from '@/store'
+import type { Task } from '@/store/taskStore'
 
 const props = defineProps({
     tasks: {
@@ -44,7 +44,6 @@ const hasTasks = computed(() => props.tasks.length > 0)
         display: flex;
         flex-direction: column;
         padding: 0.1rem 1rem;
-        margin-bottom: 0.5rem;
         border-radius: 1rem;
         border: 2px solid #e0e0e0;
         transition: all .9s ease;

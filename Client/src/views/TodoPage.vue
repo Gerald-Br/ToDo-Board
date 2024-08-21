@@ -1,18 +1,18 @@
 <template>
-    <div class="container d-flex flex-column board">
-        <header class="d-flex justify-content-end board-info">
-            <div class="d-flex board-info-element">
+    <div class="container d-flex flex-column board shadow">
+        <header class="d-flex justify-content-end board-header">
+            <div class="d-flex board-header-element">
                 <span class="badge rounded-pill text-bg-primary">
                     Todo: {{ totalTasks }}
                 </span>
             </div>
-            <div class="d-flex board-info-element">
+            <div class="d-flex board-header-element">
                 <span class="badge rounded-pill text-bg-primary">
                     Done: {{ totalTasksDone }}
                 </span>
             </div>
         </header>
-        <div class="board-content">
+        <div class="board-content my-1">
             <TaskTable :tasks="allTasks" />
         </div>
         <div class="board-footer d-flex justify-content-end">
@@ -28,7 +28,7 @@
 import TaskModal from '@/components/Task/TaskModal.vue'
 import TaskTable from '@/components/Task/TaskTable.vue'
 import { ref, computed } from 'vue'
-import { useTaskStore } from '@/store'
+import { useTaskStore } from '@/store/taskStore'
 
 const store = useTaskStore()
 const showModal = ref(false)
@@ -40,19 +40,20 @@ const totalTasksDone = computed(() => store.totalDoneTasks)
 </script>
 
 <style scoped lang="scss">
-.board-info {
-    margin-bottom: 0.5rem;
+.board-header {
     padding: 0.5rem;
-    background-color: rgb(220, 220, 220);
-}
 
-.board-info-element {
-    margin-right: 1rem;
+
+    &-element {
+        margin-right: 1rem;
+    }
+}
+.board-footer, .board-header {
+    background: linear-gradient(90deg, rgba(238, 231, 217, 0.945), rgb(201, 230, 230));
 }
 
 .board {
     width: 100%;
-    max-width: 50rem;
     margin: 0 0 2rem 0;
     overflow: hidden;
     transition: 0.5s ease-in-out 0s;
@@ -78,7 +79,6 @@ const totalTasksDone = computed(() => store.totalDoneTasks)
 .board-footer {
     padding: 0rem;
     margin: 0rem;
-    background-color: rgb(220, 220, 220);
 
     .btn{
         width: 40px;

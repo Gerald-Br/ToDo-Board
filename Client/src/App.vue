@@ -4,14 +4,13 @@ import WeatherPage from './views/WeatherPage.vue';
 </script>
 
 <template>
-  <div class="container">
-    <div class="row">
-      <div class="col-12 d-flex justify-content-start">
+  <div class="container d-flex flex-column justify-content-center">
+    <h1 class="d-flex justify-content-center mb-4">Dashboard</h1>
+      <div class="">
         <TodoPage />
       </div>
-      <div class="col-12 d-flex justify-content-start">
+      <div class="d-flex justify-content-start">
         <WeatherPage />
       </div>
-    </div>
   </div>
 </template>

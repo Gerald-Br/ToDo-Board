@@ -6,16 +6,21 @@ interface FinalWeatherResponse {
         time: Date;
         temperature: number;
         rainprobability: number;
+        sunshine: number;
     }
     tomorrow: {
         time: Date;
         maxTemperature: number;
         minTemperature: number;
+        sunshine: number;
+        rainprobability: number;
     }
     dayAfterTomorrow: {
         time: Date;
         maxTemperature: number;
         minTemperature: number;
+        sunshine: number;
+        rainprobability: number;
     }
 }
 

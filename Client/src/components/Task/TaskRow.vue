@@ -33,7 +33,7 @@
 </template>
 
 <script setup lang="ts">
-import { useTaskStore } from '@/store'
+import { useTaskStore } from '@/store/taskStore'
 import { defineProps, computed } from 'vue'
 
 const store = useTaskStore()

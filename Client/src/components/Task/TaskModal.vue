@@ -60,7 +60,7 @@
 </template>
 
 <script setup lang="ts">
-import { Priority, useTaskStore } from '@/store';
+import { Priority, useTaskStore } from '@/store/taskStore';
 import { defineProps, ref, computed } from 'vue'
 
 defineProps({
