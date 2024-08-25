@@ -28,4 +28,11 @@ watch(coords, (newCoords) => {
     flex-direction: row;
     color: black;
 }
+
+@media screen and (max-width: 768px) {
+    .weatherContainer {
+        flex-direction: column;
+    }
+    
+}
 </style>

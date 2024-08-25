@@ -1,38 +1,18 @@
 import { defineStore } from 'pinia';
-import { getWeatherData } from '@/services/weatherApi'; // Adjust the import path as needed
-
-export interface WeatherData {
-  location: string;
-  today: {
-    time: Date;
-    temperature: number;
-    rainprobability: number;
-  };
-  tomorrow: {
-    time: Date;
-    maxTemperature: number;
-    minTemperature: number;
-    rainprobability: number;
-  };
-  dayAfterTomorrow: {
-    time: Date;
-    maxTemperature: number;
-    minTemperature: number;
-    rainprobability: number;
-  };
-}
+import { getWeatherData } from '@/services/weatherApi';
+import type { weatherData } from '@/services/weatherApi';
 
 export const useWeatherStore = defineStore('weatherStore', {
   state: () => ({
-    weatherData: null as WeatherData | null,
+    weatherData: null as weatherData | null,
     loading: false,
     error: null as string | null,
   }),
   getters: {
-    currentWeather: (state) => state.weatherData?.today,
+    location: (state) => state.weatherData?.location,
+    currentWeather: (state) => state.weatherData?.data[0],
     forecast: (state) => ({
-      tomorrow: state.weatherData?.tomorrow,
-      dayAfterTomorrow: state.weatherData?.dayAfterTomorrow,
+      ...state.weatherData?.data
     }),
   },
   actions: {

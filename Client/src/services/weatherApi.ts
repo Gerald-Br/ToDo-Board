@@ -1,23 +1,15 @@
 import axios from 'axios';
+export interface WeatherDataItem {
+    time: Date;
+    temperature?: number; // Optional, only for the current day
+    maxTemperature: number;
+    minTemperature: number;
+    sunshine: number;
+    rainprobability: number;
+}
 export interface weatherData {
     location: string;
-    today: {
-        time: Date;
-        temperature: number;
-        rainprobability: number;
-    }
-    tomorrow: {
-        time: Date;
-        maxTemperature: number;
-        minTemperature: number;
-        rainprobability: number;
-    }
-    dayAfterTomorrow: {
-        time: Date;
-        maxTemperature: number;
-        minTemperature: number;
-        rainprobability: number;
-    }
+    data: WeatherDataItem[];
 }
 
 const SERVER_URL = 'http://localhost:3000/api/weather'

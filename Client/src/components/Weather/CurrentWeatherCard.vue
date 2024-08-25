@@ -8,21 +8,21 @@
                 </button>
             </form>
         </div>
-        <div v-if="wData" class="d-flex flex-column flex-grow-1">
+        <div v-if="currentWeatherData" class="d-flex flex-column flex-grow-1">
             <div class="weatherBody d-flex align-items-center justify-content-start flex-grow-1">
-                <div class="weatherInfo align-items-center" v-show="wData">
+                <div class="weatherInfo align-items-center" v-show="currentWeatherData">
                     <img :src="getWeatherIcon(dayTime)" class="pic" />
-                    <p class="fs-1 fw-medium">{{ wData?.today.temperature }}°C</p>
+                    <p class="fs-1 fw-medium">{{ currentWeatherData?.temperature }}°C</p>
                 </div>
             </div>
             <div class="weatherFooter">
-                <div class="d-flex mt-1" v-if="wData">
+                <div class="d-flex mt-1" v-if="currentWeatherData">
                     <i class="bi bi-geo-alt"></i>
-                    <div class="ms-2 fw-medium">{{ wData?.location }}</div>
+                    <div class="ms-2 fw-medium">{{ weatherLocation }}</div>
                 </div>
-                <div class="d-flex mt-1" v-if="wData">
+                <div class="d-flex mt-1" v-if="currentWeatherData">
                     <i class="bi bi-clock"></i>
-                    <div class="ms-2 fw-medium">{{ moment.utc(wData?.today.time).format("DD MMM YYYY HH:mm") }}</div>
+                    <div class="ms-2 fw-medium">{{ moment.utc(currentWeatherData?.time).format("DD MMM YYYY HH:mm") }}</div>
                 </div>
             </div>
         </div>
@@ -37,12 +37,14 @@ import nightIcon from '@/assets/animated-images/night.svg';
 import { useWeatherStore } from '@/store/weatherStore';
 
 const store = useWeatherStore();
-const wData = computed(() => store.weatherData);
+const currentWeatherData = computed(() => store.weatherData?.data[0]);
+const weatherLocation = computed(() => store.location)
 const location = ref<string>('');
 const dayTime = ref<boolean>(true);
 
 const onLocationEntered = (location: string) => {
     store.fetchWeather(location);
+
 }
 
 const getWeatherIcon = (dayTime: boolean) => {
@@ -107,5 +109,12 @@ const getWeatherIcon = (dayTime: boolean) => {
 
 .weatherFooter {
     border-top: 2px solid rgba(0, 0, 0, 0.25);
+}
+@media screen and (max-width: 768px) {
+    .weatherDashboard{
+        margin-right: 0;
+        margin-bottom: 2rem;
+    }
+    
 }
 </style>

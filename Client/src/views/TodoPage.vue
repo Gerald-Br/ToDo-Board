@@ -11,6 +11,9 @@
                     Done: {{ totalTasksDone }}
                 </span>
             </div>
+            <div class="progress" role="progressbar" aria-label="Basic example" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100">
+  <div class="progress-bar w-75"></div>
+</div>
         </header>
         <div class="board-content my-1">
             <TaskTable :tasks="allTasks" />
