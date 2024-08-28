@@ -6,7 +6,7 @@ import WeatherPage from './views/WeatherPage.vue';
 <template>
   <div class="container d-flex flex-column justify-content-center">
     <h1 class="d-flex justify-content-center mb-4">Dashboard</h1>
-      <div class="">
+      <div>
         <TodoPage />
       </div>
       <div class="d-flex justify-content-start">

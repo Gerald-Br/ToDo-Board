@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia';
-import { getWeatherData } from '@/services/weatherApi';
-import type { weatherData } from '@/services/weatherApi';
+import { getWeatherData } from '@/services/weatherService';
+import type { weatherData } from '@/services/weatherService';
 
 export const useWeatherStore = defineStore('weatherStore', {
   state: () => ({

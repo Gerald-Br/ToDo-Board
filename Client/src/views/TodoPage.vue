@@ -30,7 +30,7 @@
 <script setup lang="ts">
 import TaskModal from '@/components/Task/TaskModal.vue'
 import TaskTable from '@/components/Task/TaskTable.vue'
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import { useTaskStore } from '@/store/taskStore'
 
 const store = useTaskStore()
@@ -40,6 +40,11 @@ const allTasks = computed(() => store.alltasks)
 const totalTasks = computed(() => store.totalTasks)
 const totalTasksDone = computed(() => store.totalDoneTasks)
 
+console.log("All Tasks:", allTasks)
+
+onMounted(() => {
+    store.fetchTasks()
+})
 </script>
 
 <style scoped lang="scss">

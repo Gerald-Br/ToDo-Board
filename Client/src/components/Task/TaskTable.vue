@@ -1,7 +1,7 @@
 <template>
     <div class="task-list">
         <transition-group v-if="hasTasks" name="slide-fade">
-            <li class="task-list-item my-1" v-for="task in props.tasks" :key="task.id" tabindex="-1">
+            <li class="task-list-item my-1" v-for="task in props.tasks" :key="task._id" tabindex="-1">
                 <TaskRow :task="task" />
             </li>
         </transition-group>

@@ -2,8 +2,8 @@
     <div :class="['d-flex', 'align-items-center', 'justify-content-between', { 'is-done': isTaskCompleted }]">
         <div class="d-flex align-items-center">
             <div class="form-check form-check-inline">
-                <input class="form-check-input" type="checkbox" v-model="isTaskCompleted"
-                    @click="handleCompleteTask(props.task.id)" />
+                <input class="form-check-input" type="checkbox" :checked="isTaskCompleted == true"
+                    @click="handleCompleteTask(props.task._id)" />
             </div>
             <div class="m-2">
                 {{ props.task.title }}
@@ -24,7 +24,7 @@
                 </span>
             </div>-->
             <div>
-                <button type="button" class="btn btn-sm btn-delete" @click="handleDeleteTask(props.task.id)">
+                <button type="button" class="btn btn-sm btn-delete" @click="handleDeleteTask(props.task._id)">
                     <i class="bi bi-trash"></i>
                 </button>
             </div>
@@ -42,15 +42,19 @@ const store = useTaskStore()
 const props = defineProps({
     task: {
         type: Object,
-        default: () => ({ id: '', title: '', priority: 0 })
+        default: () => ({ _id: '', title: '', priority: 0, completed: false })
     }
 })
-const isTaskCompleted = computed(() => store.isTaskCompleted(props.task.id))
-const handleCompleteTask = (taskId: number) => {
+
+console.log("Task ID: ", props.task._id);
+const isTaskCompleted = computed(() => props.task.completed)
+
+const handleCompleteTask = (taskId: string) => {
     store.completeTask(taskId)
 }
 
-const handleDeleteTask = (taskId: number) => {
+const handleDeleteTask = (taskId: string) => {
+    console.log("Deleting ID: ", taskId)
     store.removeTask(taskId)
 }
 

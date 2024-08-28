@@ -23,6 +23,6 @@ export const getWeatherData = async (location: string): Promise<weatherData> => 
       return response.data;
   } catch (error) {
       console.error('Error fetching weather data:', error);
-      throw error; // Re-throw the error to be handled by the calling function
+      throw error;
   }
 };

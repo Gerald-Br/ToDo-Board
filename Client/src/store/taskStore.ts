@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia';
-
+import { getTasks, createTask, updateTask, deleteTask } from '@/services/taskService';
 export interface Task {
-  id: number;
+  _id: string;
   title: string;
   priority: Priority;
   category: string;
@@ -30,14 +30,9 @@ const priorityMap = {
 export const useTaskStore = defineStore('taskStore', {
   state: () => ({
     /** @type {{id: number, title: string, description: string, priority: Priority, category: string, completed: boolean}[]} */
-    tasks: [
-      { id: 1, title: 'Learn Vue 3', priority: Priority.High, category: 'Education', completed: false },
-      { id: 2, title: 'Learn Vuex', priority: Priority.Medium, category: 'Education', completed: true },
-      { id: 3, title: 'Do Something', priority: Priority.Low, category: 'Work', completed: false },
-    ] as Task[],
+    tasks: [] as Task[],
     /** @type {'all' | 'finished' | 'unfinished'} */
-    filter: 'all',
-    nextId: 4,
+    filter: 'all'
   }),
   getters: {
     finishedTasks: (state) => state.tasks.filter(task => task.completed),
@@ -47,36 +42,25 @@ export const useTaskStore = defineStore('taskStore', {
     alltasks: (state) => state.tasks,
     totalTasks: (state) => state.tasks.filter(task => !task.completed).length,
     totalDoneTasks: (state) => state.tasks.filter(task => task.completed).length,
-    isTaskCompleted: (state) => (taskId: number) => {
-      const task = state.tasks.find(task => task.id === taskId);
-      return task ? task.completed : false;
-    }
   },
   actions: {
-    addCategory(category: string, color: string) {
-      categoryColorMap[category] = color;
+    async fetchTasks() {
+      this.tasks = await getTasks();
     },
-    addTask(title: string, priority: number, category: string) {
-      const newTask = {
-        id: this.nextId++,
-        title,
-        priority,
-        category,
-        completed: false,
-      };
+    async addTask(title: string, priority: number, category: string) {
+      const newTask = await createTask({ title, priority, category, completed: false });
       this.tasks.push(newTask);
     },
-    completeTask(taskId: number) {
-      const task = this.tasks.find(task => task.id === taskId);
+    async completeTask(taskId: string) {
+      const task = this.tasks.find(task => task._id === taskId);
       if (task) {
         task.completed = !task.completed;
+        await updateTask(taskId, { completed: task.completed });
       }
     },
-    removeTask(taskId: number) {
-      const index = this.tasks.findIndex(task => task.id === taskId);
-      if (index !== -1) {
-        this.tasks.splice(index, 1);
-      }
-    },
+    async removeTask(taskId: string) {
+      await deleteTask(taskId);
+      this.tasks = this.tasks.filter(task => task._id !== taskId);
+    }
   },
 });
