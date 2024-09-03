@@ -17,7 +17,6 @@ const startServer = async () => {
     console.log('Connected to MongoDB');
   } catch (e) {
     console.error('Error connecting to MongoDB:', e);
-  } finally {
   }
 };
 

@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia';
 import { getWeatherData } from '@/services/weatherService';
-import type { weatherData } from '@/services/weatherService';
+import type { weatherData, WeatherDataItem } from '@/services/weatherService';
 
 export const useWeatherStore = defineStore('weatherStore', {
   state: () => ({
@@ -9,11 +9,9 @@ export const useWeatherStore = defineStore('weatherStore', {
     error: null as string | null,
   }),
   getters: {
-    location: (state) => state.weatherData?.location,
-    currentWeather: (state) => state.weatherData?.data[0],
-    forecast: (state) => ({
-      ...state.weatherData?.data
-    }),
+    location: (state): string | undefined => state.weatherData?.location,
+    currentWeather: (state): WeatherDataItem | null=> state.weatherData?.data[0] ?? null,
+    forecast: (state): WeatherDataItem[] | []  => state.weatherData?.data ?? [],
   },
   actions: {
     async fetchWeather(location: string) {

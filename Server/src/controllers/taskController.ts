@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import Task from '../models/task';
 
-export const createTask = async (req: any, res: any) => {
+export const createTask = async (req: Request, res: Response) => {
     try {
         console.log("Creating new Task...")        
         const task = new Task(req.body);

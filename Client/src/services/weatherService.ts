@@ -1,6 +1,6 @@
 import axios from 'axios';
 export interface WeatherDataItem {
-    time: Date;
+    time: Date | string;
     temperature?: number; // Optional, only for the current day
     maxTemperature: number;
     minTemperature: number;

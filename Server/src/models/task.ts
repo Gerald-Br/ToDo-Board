@@ -13,7 +13,7 @@ const TaskSchema: Schema = new Schema({
   category: { type: String, required: false },
   completed: { type: Boolean, required: true, default: false },
 }, {
-  timestamps: true // Automatically manage createdAt and updatedAt fields
+  timestamps: true
 });
 
 const Task = mongoose.model<ITask>('Task', TaskSchema);
