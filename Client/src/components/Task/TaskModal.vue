@@ -1,6 +1,6 @@
 <template>
     <transition name="fade">
-        <div v-if="isVisible" class="modal show d-block" tabindex="-1" @click.self="closeModal">
+        <div v-if="isOpen" class="modal show d-block" tabindex="-1" @click.self="closeModal">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -33,7 +33,7 @@
                             <div class="mb-3">
                                 <label for="CategoryInput" class="form-label fw-light">Category</label>
                                 <div class="border border-2 p-2 rounded-3 d-flex flex-wrap">
-                                    <div id="CategoryInput" v-for="(color, category) in categoryColorMap"
+                                    <div id="CategoryInput" v-for="(color, category) in store.categoryColorMap"
                                         :key="category">
                                         <button type="button" class="btn badge rounded-pill m-1"
                                             :class="{ 'selected': selectedCategory === category }"
@@ -61,16 +61,12 @@
 
 <script setup lang="ts">
 import { Priority, useTaskStore } from '@/store/taskStore';
-import { defineProps, ref, computed } from 'vue'
-
-defineProps({
-    isVisible: Boolean,
-})
+import { ref } from 'vue'
+import { useModal } from '@/composables/useModal'
 
 const store = useTaskStore()
-const categoryColorMap = computed(() => store.categoryColorMap)
+const { isOpen, closeModal } = useModal()
 
-const emit = defineEmits(['update:isVisible'])
 const title = ref('')
 const priority = ref<Priority>(Priority.None)
 const selectedCategory = ref('')
@@ -78,10 +74,7 @@ const selectedCategory = ref('')
 const addNewTask = () => {
     store.addTask(title.value, priority.value, selectedCategory.value)
     resetForm()
-    emit('update:isVisible', false)
-}
-const closeModal = () => {
-    emit('update:isVisible', false)
+    closeModal()
 }
 const resetForm = () => {
     title.value = ''

@@ -1,7 +1,7 @@
 <template>
-    <div class="forecastDashboard w-100 p-4 shadow d-flex flex-column">
+    <div class="forecastDashboard w-100 p-4 d-flex flex-column">
         <div class="forecastCardsWrapper h-100 d-flex flex-column justify-content-evenly">
-            <div v-for="(day, index) in forecast" :key="day.time.toString()">
+            <div v-for="(day, index) in store.forecast" :key="day.time.toString()">
                 <div v-if="index != 0 && index < 7" class="forecastCard d-flex align-items-center p-2">
                     <div class="forecastCardHeader flex-grow-1">
                         <h3 class="m-0 fw-light">{{ formatDay(day.time.toString()) }}</h3>
@@ -25,36 +25,23 @@
 
 <script setup lang="ts">
 import { useWeatherStore } from '@/store/weatherStore';
-import { computed, ref, onMounted, onUnmounted } from 'vue';
 import moment from 'moment';
-import type { WeatherDataItem } from '@/services/weatherService';
+import { useScreenWidth } from '../../composables/useScreenWidth'
 
 const store = useWeatherStore();
-const forecast = computed<WeatherDataItem[]>(() => store.forecast);
-const screenWidth = ref(window.innerWidth);
-
-const updateScreenWidth = () => {
-    screenWidth.value = window.innerWidth;
-};
-
-onMounted(() => {
-    window.addEventListener('resize', updateScreenWidth);
-});
-
-onUnmounted(() => {
-    window.removeEventListener('resize', updateScreenWidth);
-});
+const screenWidth = useScreenWidth()
 
 const formatDay = (time: string) => {
     return screenWidth.value <= 991 ? moment.utc(time).format("ddd") : moment.utc(time).format("dddd");
 };
+
 </script>
 <style scoped lang="scss">
 .forecastDashboard {
     min-width: 300px;
     border-radius: 20px;
     height: 350px;
-    background: linear-gradient(45deg, #80CBC4, #B2DFDB);
+    background: rgba(0,0,0,0.1);
     overflow: hidden;
 }
 

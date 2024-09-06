@@ -32,7 +32,8 @@ export const useTaskStore = defineStore('taskStore', {
     /** @type {{id: number, title: string, description: string, priority: Priority, category: string, completed: boolean}[]} */
     tasks: [] as Task[],
     /** @type {'all' | 'finished' | 'unfinished'} */
-    filter: 'all'
+    filter: 'all',
+    isLoading: false,
   }),
   getters: {
     finishedTasks: (state) => state.tasks.filter(task => task.completed),
@@ -45,7 +46,9 @@ export const useTaskStore = defineStore('taskStore', {
   },
   actions: {
     async fetchTasks() {
+      this.isLoading = true;
       this.tasks = await getTasks();
+      this.isLoading = false;
     },
     async addTask(title: string, priority: number, category: string) {
       const newTask = await createTask({ title, priority, category, completed: false });

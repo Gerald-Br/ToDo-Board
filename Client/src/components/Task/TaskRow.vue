@@ -1,19 +1,19 @@
 <template>
-    <div :class="['d-flex', 'align-items-center', 'justify-content-between', { 'is-done': isTaskCompleted }]">
+    <div :class="['d-flex', 'align-items-center', 'justify-content-between', { 'is-done': task.completed }]">
         <div class="d-flex align-items-center">
             <div class="form-check form-check-inline">
-                <input class="form-check-input" type="checkbox" :checked="isTaskCompleted == true"
-                    @click="handleCompleteTask(props.task._id)" />
+                <input class="form-check-input" type="checkbox" :checked="task.completed == true"
+                    @click="handleCompleteTask(task._id)" />
             </div>
             <div class="m-2">
-                {{ props.task.title }}
+                {{ task.title }}
             </div>
         </div>
         <div class="d-flex align-items-center">
             <div class="me-3">
-                <span :class="['badge', 'rounded-pill', getPriority(props.task.priority).class]">
+                <span :class="['badge', 'rounded-pill', getPriority(task.priority).class]">
                     <i class="bi bi-exclamation-circle-fill me-1"></i>
-                    {{ getPriority(props.task.priority).label }}
+                    {{ getPriority(task.priority).label }}
                 </span>
             </div>
             <!--<div class="me-3">
@@ -24,7 +24,7 @@
                 </span>
             </div>-->
             <div>
-                <button type="button" class="btn btn-sm btn-delete" @click="handleDeleteTask(props.task._id)">
+                <button type="button" class="btn btn-sm btn-delete" @click="handleDeleteTask(task._id)">
                     <i class="bi bi-trash"></i>
                 </button>
             </div>
@@ -34,20 +34,17 @@
 
 <script setup lang="ts">
 import { useTaskStore } from '@/store/taskStore'
-import { defineProps, computed } from 'vue'
 
 const store = useTaskStore()
-/*const categoryColorMap = store.categoryColorMap*/
 
-const props = defineProps({
-    task: {
-        type: Object,
-        default: () => ({ _id: '', title: '', priority: 0, completed: false })
-    }
-})
-
-console.log("Task ID: ", props.task._id);
-const isTaskCompleted = computed(() => props.task.completed)
+const { task } = defineProps<{
+  task: {
+    _id: string;
+    title: string;
+    priority: number;
+    completed: boolean;
+  }
+}>()
 
 const handleCompleteTask = (taskId: string) => {
     store.completeTask(taskId)

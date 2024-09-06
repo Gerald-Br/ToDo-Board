@@ -3,12 +3,12 @@
         <header class="d-flex justify-content-end board-header">
             <div class="d-flex board-header-element">
                 <span class="badge rounded-pill text-bg-primary">
-                    Todo: {{ totalTasks }}
+                    Todo: {{ store.totalTasks }}
                 </span>
             </div>
             <div class="d-flex board-header-element">
                 <span class="badge rounded-pill text-bg-primary">
-                    Done: {{ totalTasksDone }}
+                    Done: {{ store.totalDoneTasks }}
                 </span>
             </div>
             <div class="progress" role="progressbar" aria-label="Basic example" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100">
@@ -16,31 +16,26 @@
 </div>
         </header>
         <div class="board-content my-1">
-            <TaskTable :tasks="allTasks" />
+            <TaskTable :tasks="store.alltasks" />
         </div>
         <div class="board-footer d-flex justify-content-end">
-            <button type="button" class="btn btn-primary rounded-circle board-footer-add" @click="showModal = true">
+            <button type="button" class="btn btn-primary rounded-circle board-footer-add" @click="openModal">
                 <i class="bi bi-plus-lg"></i>
             </button>
         </div>
     </div>
-    <TaskModal v-model:isVisible="showModal" />
+    <TaskModal />
 </template>
 
 <script setup lang="ts">
 import TaskModal from '@/components/Task/TaskModal.vue'
 import TaskTable from '@/components/Task/TaskTable.vue'
-import { ref, computed, onMounted } from 'vue'
+import { onMounted } from 'vue'
 import { useTaskStore } from '@/store/taskStore'
+import { useModal } from '@/composables/useModal'
 
 const store = useTaskStore()
-const showModal = ref(false)
-
-const allTasks = computed(() => store.alltasks)
-const totalTasks = computed(() => store.totalTasks)
-const totalTasksDone = computed(() => store.totalDoneTasks)
-
-console.log("All Tasks:", allTasks)
+const { openModal } = useModal()
 
 onMounted(() => {
     store.fetchTasks()
